@@ -1,9 +1,22 @@
+import appFirebase from "./credentials";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import Login from "./Components/Login.jsx/Login";
+import Home from "./Components/Home/Home";
+import { useState } from "react";
+const auth = getAuth(appFirebase);
+
 function App() {
-  return (
-    <>
-      <h1>HOME</h1>
-    </>
-  );
+  const [user, setUser] = useState(null);
+
+  onAuthStateChanged(auth, (usuarioFirebase) => {
+    if (usuarioFirebase) {
+      setUser(usuarioFirebase);
+    } else {
+      setUser(null);
+    }
+  });
+
+  return <div>{user ? <Home emailUser={user.email} /> : <Login />}</div>;
 }
 
 export default App;
