@@ -3,11 +3,13 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Login from "./Components/Login.jsx/Login";
 import Home from "./Components/Home/Home";
 import { useState } from "react";
+import Navbar from "./Components/Navbar/Navbar";
 const auth = getAuth(appFirebase);
 
 function App() {
   const [user, setUser] = useState(null);
 
+  
   onAuthStateChanged(auth, (usuarioFirebase) => {
     if (usuarioFirebase) {
       setUser(usuarioFirebase);
@@ -15,8 +17,13 @@ function App() {
       setUser(null);
     }
   });
-
-  return <div>{user ? <Home emailUser={user.email} /> : <Login />}</div>;
+  
+  return (
+    <>
+    <Navbar/>
+    <div>{user ? <Home emailUser={user.email} /> : <Login />}</div>
+    </>
+  )
 }
 
 export default App;
